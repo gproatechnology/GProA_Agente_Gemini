@@ -4,6 +4,7 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 Set-Location -LiteralPath $scriptDir
 
 Write-Host "Agente GProA Gemini" -ForegroundColor Cyan
+Write-Host "=====================" -ForegroundColor Cyan
 
 # Crear .env si no existe
 $envFile = Join-Path $scriptDir ".env"
@@ -32,5 +33,16 @@ Write-Host "Instalando dependencias..." -ForegroundColor Cyan
 pip install -r requirements.txt
 
 Write-Host ""
-Write-Host "Listo. Ejecuta: python agente_gemini.py" -ForegroundColor Green
-Write-Host "Recuerda editar .env y poner tu GOOGLE_API_KEY antes de correr el agente." -ForegroundColor Yellow
+Write-Host "=== Opciones de ejecución ===" -ForegroundColor Cyan
+Write-Host "1) Ejecutar interfaz web (Streamlit)"
+Write-Host "2) Ejecutar consola (CLI)"
+Write-Host ""
+$opcion = Read-Host "Selecciona una opción (1 o 2)"
+
+if ($opcion -eq "1") {
+    Write-Host "Iniciando interfaz web en http://localhost:8501 ..." -ForegroundColor Green
+    streamlit run ui/streamlit_app.py
+} else {
+    Write-Host "Iniciando consola..." -ForegroundColor Green
+    python agente_gemini.py
+}

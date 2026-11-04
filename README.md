@@ -6,18 +6,20 @@ Agente de software basado en **Google Gemini** para auditar, explicar y responde
 
 | Archivo | Propósito |
 |---------|-----------|
-| `agente_gemini.py` | Agente principal: responde preguntas y audita archivos de código |
-| `start-agent.ps1` | Script de inicio: crea `.venv`, instala dependencias y abre `.env` |
-| `requirements.txt` | Dependencias de Python (`google-generativeai`, `python-dotenv`) |
-| `.env.example` | Plantilla para tu archivo `.env` (no subir a Git) |
+| `agente_gemini.py` | Lógica del agente (funciones `preguntar()` y `auditar_proyecto()`) |
+| `ui/streamlit_app.py` | Interfaz web con Streamlit (chat, auditoría de archivos, resumen de proyectos) |
+| `start-agent.ps1` | Script de inicio: crea `.venv`, instala dependencias, prepara `.env` |
+| `requirements.txt` | Dependencias de Python (`google-generativeai`, `python-dotenv`, `streamlit`) |
+| `.env.example` | Plantilla para tu archivo `.env` (no compartir) |
 | `.env` | **Tu archivo privado con la API Key** (no compartir, no subir) |
+| `README.md` | Instrucciones de uso |
 
 ## Primer uso
 
 1. Ejecuta `.\start-agent.ps1` (crea el entorno virtual e instala dependencias).
 2. Edita `.env` y agrega tu `GOOGLE_API_KEY` de Google AI Studio.
-3. Ejecuta `python agente_gemini.py`.
-4. Escribe tus preguntas o usa `auditar <nombre_de_archivo>` para analizar código.
+3. Ejecuta `.\start-agent.ps1` y selecciona la opción **1** para abrir la interfaz web.
+4. O ejecuta `python agente_gemini.py` para usar la consola.
 
 ## Seguridad
 
