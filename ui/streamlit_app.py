@@ -26,7 +26,7 @@ genai.configure(api_key=API_KEY)
 st.sidebar.title("⚙️ Configuración")
 modelo_disponible = st.sidebar.selectbox(
     "Modelo de Gemini:",
-    ["gemini-1.5-pro", "gemini-1.5-flash", "gemini-1.0-pro", "gemini-pro"],
+    ["models/gemini-2.5-flash", "models/gemini-2.5-flash-lite", "models/gemini-2.5-pro", "models/gemini-flash-latest", "models/gemini-pro-latest"],
     index=0
 )
 

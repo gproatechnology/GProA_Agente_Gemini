@@ -14,7 +14,7 @@ if not API_KEY:
 genai.configure(api_key=API_KEY)
 
 # Modelo predeterminado (se puede cambiar en la UI)
-MODELO_PREDETERMINADO = "gemini-1.5-pro"
+MODELO_PREDETERMINADO = "models/gemini-2.5-flash"
 
 def obtener_modelo(nombre_modelo=MODELO_PREDETERMINADO):
     """Crea una instancia del modelo de Gemini."""
