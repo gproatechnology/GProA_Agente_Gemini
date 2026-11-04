@@ -38,14 +38,14 @@
         const widgetHTML = `
             <!-- Botón flotante -->
             <button id="gproa-gemini-toggle" aria-label="Abrir asistente GProA">
-                <i>🤖</i>
+                <i class="fab fa-whatsapp"></i>
             </button>
 
             <!-- Panel del chat -->
             <div id="gproa-gemini-panel" style="display: none;">
                 <button class="gemini-close-panel" id="gproa-close" aria-label="Cerrar">&times;</button>
                 <div class="gemini-header">
-                    <h2>🤖 GProA Gemini</h2>
+                        <h2><i class="fab fa-whatsapp"></i> GProA Asistente</h2>
                     <div id="gproa-estado" style="font-size: 0.75rem; color: var(--gproa-primary);"></div>
                 </div>
                 
