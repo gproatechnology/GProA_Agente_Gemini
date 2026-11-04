@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
@@ -63,6 +63,12 @@ def listar_modelos():
         return jsonify({"modelos": modelos_validos, "exito": True})
     except Exception as e:
         return jsonify({"error": str(e), "exito": False}), 500
+
+
+@app.route("/widget.js")
+def servir_widget():
+    """Sirve el archivo JS del widget embebido."""
+    return send_file("widget/widget/js/widget.js")
 
 
 if __name__ == "__main__":
