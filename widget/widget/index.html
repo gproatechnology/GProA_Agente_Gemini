@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Widget GProA Gemini</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0f1c 0%, #1a1f2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-family: 'Orbitron', monospace;
+            color: #00e0ff;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        p {
+            color: #b8c5d6;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .btn-demo {
+            display: inline-block;
+            background: linear-gradient(135deg, #00e0ff, #8a2be2);
+            color: #0a0f1c;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+        .btn-demo:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 224, 255, 0.3);
+        }
+        .nota {
+            background: rgba(0, 224, 255, 0.1);
+            border: 1px solid rgba(0, 224, 255, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 2rem;
+            color: var(--gproa-gray);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 GProA Gemini Widget</h1>
+        <p>Widget embebible de asistente de IA para tu página web. Simplemente incluye el archivo <code>widget.js</code> y el widget aparecerá en la esquina inferior derecha.</p>
+        
+        <a href="#" class="btn-demo">Ver ejemplo en CodePen</a>
+        
+        <div class="nota">
+            <strong>Cómo usar:</strong>
+            <ol>
+                <li>Despliega el backend en Render o tu servidor</li>
+                <li>Incluye <code>&lt;script src="TU_URL/widget/js/widget.js"&gt;&lt;/script&gt;</code> en tu página</li>
+                <li>El widget aparecerá automáticamente en la esquina inferior derecha</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- El widget se carga automáticamente -->
+    <script src="js/widget.js"></script>
+</body>
+</html>

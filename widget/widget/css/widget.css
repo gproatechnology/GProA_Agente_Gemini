@@ -1,0 +1,347 @@
+/*
+ * GProA Gemini Widget - Estilos CSS
+ * Tema oscuro con colores corporativos de GProA
+ */
+
+:root {
+    --gproa-dark: #050812;
+    --gproa-darker: #0a0f1c;
+    --gproa-primary: #00e0ff;
+    --gproa-secondary: #8a2be2;
+    --gproa-gray: #b8c5d6;
+    --gproa-bg-card: rgba(20, 30, 50, 0.9);
+    --gproa-border: rgba(0, 224, 255, 0.15);
+}
+
+/* Contenedor del widget (oculto por defecto) */
+#gproa-gemini-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    font-family: 'Segoe UI', 'Exo 2', sans-serif;
+    font-size: 14px;
+}
+
+/* Botón flotante para abrir/cerrar */
+#gproa-gemini-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--gproa-primary), var(--gproa-secondary));
+    border-radius: 50%;
+    border: none;
+    color: #0a0f1c;
+    font-weight: 700;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 224, 255, 0.4);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#gproa-gemini-toggle:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(0, 224, 255, 0.5);
+}
+
+#gproa-gemini-toggle:active {
+    transform: translateY(-1px);
+}
+
+/* Panel del chat */
+#gproa-gemini-panel {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 380px;
+    height: 500px;
+    background: linear-gradient(145deg, rgba(20, 30, 50, 0.95), rgba(10, 20, 35, 0.98));
+    border: 1px solid var(--gproa-border);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: 9999;
+    animation: slideUp 0.3s ease;
+}
+
+/* Animación de entrada */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header del panel */
+.gemini-header {
+    background: linear-gradient(180deg, #0a0f1c 0%, #050812 100%);
+    border-bottom: 1px solid var(--gproa-border);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.gemini-header h2 {
+    margin: 0;
+    color: #ffffff;
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gemini-header h2 i {
+    color: var(--gproa-primary);
+}
+
+.gemini-close {
+    background: none;
+    border: none;
+    color: var(--gproa-gray);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.gemini-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+/* Área de mensajes */
+.gemini-messages {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* Mensaje del usuario */
+.gemini-msg-user {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.gemini-msg-user .msg-content {
+    background: linear-gradient(135deg, var(--gproa-primary), var(--gproa-secondary));
+    color: #0a0f1c;
+    padding: 0.8rem 1rem;
+    border-radius: 12px 12px 4px 12px;
+    max-width: 75%;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    box-shadow: 0 2px 10px rgba(0, 224, 255, 0.2);
+}
+
+/* Mensaje del asistente */
+.gemini-msg-assistant {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.gemini-msg-assistant .msg-avatar {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--gproa-secondary), var(--gproa-primary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0a0f1c;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.gemini-msg-assistant .msg-content {
+    background: rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    padding: 0.8rem 1rem;
+    border-radius: 12px 12px 12px 4px;
+    max-width: 75%;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    border-left: 3px solid var(--gproa-primary);
+}
+
+/* Sistema */
+.gemini-msg-system {
+    display: flex;
+    justify-content: center;
+    margin: 0.5rem 0;
+}
+
+.gemini-msg-system .msg-system {
+    background: rgba(0, 224, 255, 0.1);
+    color: var(--gproa-primary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(0, 224, 255, 0.3);
+}
+
+/* Input de mensaje */
+.gemini-input-area {
+    background: rgba(10, 15, 28, 0.9);
+    border-top: 1px solid var(--gproa-border);
+    padding: 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.gemini-input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--gproa-border);
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    outline: none;
+}
+
+.gemini-input:focus {
+    border-color: var(--gproa-primary);
+    outline: none;
+}
+
+.gemini-send {
+    background: linear-gradient(135deg, var(--gproa-primary), var(--gproa-secondary));
+    border: none;
+    border-radius: 8px;
+    color: #0a0f1c;
+    font-weight: 700;
+    padding: 0.8rem 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.gemini-send:hover {
+    transform: translateY(-2px);
+}
+
+.gemini-send:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Indicador de escritura */
+.gemini-typing {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.8rem 1rem;
+}
+
+.gemini-typing .msg-avatar {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--gproa-secondary), var(--gproa-primary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0a0f1c;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.gemini-typing .typing-dots {
+    display: flex;
+    gap: 4px;
+}
+
+.gemini-typing .typing-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--gproa-primary);
+    border-radius: 50%;
+    animation: bounce 1.4s infinite both;
+}
+
+.gemini-typing .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.gemini-typing .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(0.6); }
+    40% { transform: scale(1); }
+}
+
+/* Estado vacío */
+.gemini-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--gproa-gray);
+    text-align: center;
+}
+
+.gemini-empty h3 {
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
+.gemini-empty p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Botón de cerrar */
+.gemini-close-panel {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 6px;
+    color: var(--gproa-gray);
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gemini-close-panel:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+    #gproa-gemini-panel {
+        width: calc(100vw - 20px);
+        right: 10px;
+        bottom: 90px;
+        height: 60vh;
+    }
+    
+    #gproa-gemini-toggle {
+        bottom: 15px;
+        right: 15px;
+    }
+}
