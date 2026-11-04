@@ -13,17 +13,30 @@ if not API_KEY:
 
 genai.configure(api_key=API_KEY)
 
-modelo = genai.GenerativeModel("gemini-1.5-flash")
+# Modelo predeterminado (se puede cambiar en la UI)
+MODELO_PREDETERMINADO = "gemini-1.5-pro"
 
+def obtener_modelo(nombre_modelo=MODELO_PREDETERMINADO):
+    """Crea una instancia del modelo de Gemini."""
+    return genai.GenerativeModel(nombre_modelo)
 
-def preguntar(pregunta: str, contexto: str = "") -> str:
+def listar_modelos_disponibles():
+    """Lista los modelos disponibles para la API Key configurada."""
+    try:
+        modelos = genai.list_models()
+        return [m.name for m in modelos if 'generateContent' in m.supported_generation_methods]
+    except Exception as e:
+        return [f"Error listando modelos: {e}"]
+
+def preguntar(pregunta: str, contexto: str = "", nombre_modelo: str = MODELO_PREDETERMINADO) -> str:
     """Envía una pregunta a Gemini con contexto opcional."""
     prompt = f"{contexto}\n\nPregunta: {pregunta}" if contexto else pregunta
+    modelo = obtener_modelo(nombre_modelo)
     respuesta = modelo.generate_content(prompt)
     return respuesta.text
 
 
-def auditar_proyecto(ruta_proyecto: str, archivo: str = None) -> str:
+def auditar_proyecto(ruta_proyecto: str, archivo: str = None, nombre_modelo: str = MODELO_PREDETERMINADO) -> str:
     """Lee un archivo de un proyecto y pide a Gemini que lo analice."""
     if archivo:
         ruta_completa = os.path.join(ruta_proyecto, archivo)
@@ -42,6 +55,7 @@ def auditar_proyecto(ruta_proyecto: str, archivo: str = None) -> str:
             f"del proyecto en la carpeta: {ruta_proyecto}"
         )
 
+    modelo = obtener_modelo(nombre_modelo)
     respuesta = modelo.generate_content(prompt)
     return respuesta.text
 

@@ -21,15 +21,33 @@ if not API_KEY:
     st.stop()
 
 genai.configure(api_key=API_KEY)
-modelo = genai.GenerativeModel("gemini-1.5-flash")
+
+# --- Selección de modelo ---
+st.sidebar.title("⚙️ Configuración")
+modelo_disponible = st.sidebar.selectbox(
+    "Modelo de Gemini:",
+    ["gemini-1.5-pro", "gemini-1.5-flash", "gemini-1.0-pro", "gemini-pro"],
+    index=0
+)
+
+if st.sidebar.button("Listar modelos disponibles"):
+    try:
+        modelos = genai.list_models()
+        modelos_validos = [m.name for m in modelos if 'generateContent' in m.supported_generation_methods]
+        st.sidebar.success("Modelos disponibles:")
+        for m in modelos_validos:
+            st.sidebar.write(f"• {m}")
+    except Exception as e:
+        st.sidebar.error(f"Error listando modelos: {e}")
 
 # --- Funciones del agente ---
-def preguntar(pregunta: str, contexto: str = "") -> str:
+def preguntar(pregunta: str, contexto: str = "", nombre_modelo: str = "gemini-1.5-pro") -> str:
     prompt = f"{contexto}\n\nPregunta: {pregunta}" if contexto else pregunta
+    modelo = genai.GenerativeModel(nombre_modelo)
     respuesta = modelo.generate_content(prompt)
     return respuesta.text
 
-def auditar_archivo(ruta_proyecto: str, nombre_archivo: str) -> str:
+def auditar_archivo(ruta_proyecto: str, nombre_archivo: str, nombre_modelo: str = "gemini-1.5-pro") -> str:
     ruta_completa = os.path.join(ruta_proyecto, nombre_archivo)
     if not os.path.exists(ruta_completa):
         return f"❌ No se encontró el archivo: {ruta_completa}"
@@ -45,6 +63,16 @@ def auditar_archivo(ruta_proyecto: str, nombre_archivo: str) -> str:
         "y cómo mejorarlo:\n\n"
         f"{contenido}"
     )
+    modelo = genai.GenerativeModel(nombre_modelo)
+    respuesta = modelo.generate_content(prompt)
+    return respuesta.text
+
+def auditar_proyecto(ruta_proyecto: str, nombre_modelo: str = "gemini-1.5-pro") -> str:
+    prompt = (
+        "Eres un ingeniero de software senior. Dame un resumen ejecutivo "
+        f"del proyecto en la carpeta: {ruta_proyecto}"
+    )
+    modelo = genai.GenerativeModel(nombre_modelo)
     respuesta = modelo.generate_content(prompt)
     return respuesta.text
 
@@ -53,7 +81,7 @@ st.title("🤖 Agente GProA Gemini")
 st.markdown("Asistente de código basado en **Google Gemini** para analizar proyectos de desarrollo.")
 
 # Sidebar con navegación
-st.sidebar.title("Menú")
+st.sidebar.title("📋 Menú")
 opcion = st.sidebar.radio(
     "Selecciona una opción:",
     ["Chat con Gemini", "Auditar archivo de código", "Auditar proyecto (resumen)"]
@@ -71,7 +99,7 @@ if opcion == "Chat con Gemini":
     if st.button("Enviar", type="primary"):
         if pregunta.strip():
             with st.spinner("Pensando..."):
-                respuesta = preguntar(pregunta)
+                respuesta = preguntar(pregunta, nombre_modelo=modelo_disponible)
             st.session_state.historial_chat.append({"usuario": pregunta, "agente": respuesta})
         else:
             st.warning("Escribe una pregunta antes de enviar.")
@@ -97,7 +125,7 @@ elif opcion == "Auditar archivo de código":
     if st.button("Analizar archivo", type="primary"):
         if nombre_archivo.strip():
             with st.spinner("Analizando archivo..."):
-                resultado = auditar_archivo(ruta_proyecto, nombre_archivo)
+                resultado = auditar_archivo(ruta_proyecto, nombre_archivo, nombre_modelo=modelo_disponible)
             st.subheader("Resultado del análisis:")
             st.markdown(resultado)
         else:
@@ -112,7 +140,7 @@ elif opcion == "Auditar proyecto (resumen)":
     if st.button("Generar resumen del proyecto", type="primary"):
         if ruta_proyecto.strip():
             with st.spinner("Analizando proyecto..."):
-                resultado = auditar_proyecto(ruta_proyecto)
+                resultado = auditar_proyecto(ruta_proyecto, nombre_modelo=modelo_disponible)
             st.subheader("Resumen del proyecto:")
             st.markdown(resultado)
         else:
