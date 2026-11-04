@@ -5,11 +5,159 @@ import google.generativeai as genai
 
 # --- Configuración de la página ---
 st.set_page_config(
-    page_title="Agente GProA Gemini",
+    page_title="GProA Gemini - Asistente IA",
     page_icon="🤖",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# --- CSS personalizado con tema GProA ---
+st.markdown("""
+<style>
+    :root {
+        --gproa-dark: #050812;
+        --gproa-darker: #0a0f1c;
+        --gproa-primary: #00e0ff;
+        --gproa-secondary: #8a2be2;
+        --gproa-gray: #b8c5d6;
+        --gproa-bg: #050812;
+        --gproa-card: #0a0f1c;
+        --gproa-border: rgba(0, 224, 255, 0.15);
+    }
+
+    .stApp {
+        background-color: var(--gproa-bg);
+        color: #ffffff;
+    }
+
+    .main > div {
+        padding-top: 2rem;
+    }
+
+    /* Header */
+    .header-container {
+        background: linear-gradient(180deg, #050812 0%, #0a0f1c 100%);
+        border-bottom: 1px solid var(--gproa-border);
+        padding: 2rem 1rem;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .header-title {
+        font-family: 'Orbitron', monospace;
+        font-size: 2.5rem;
+        color: #ffffff;
+        margin: 0;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    .header-subtitle {
+        color: var(--gproa-gray);
+        font-size: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    /* Sidebar */
+    .stSidebar {
+        background: linear-gradient(180deg, #0a0f1c 0%, #050812 100%);
+        border-right: 1px solid var(--gproa-border);
+    }
+
+    .stSidebar .stSelectbox > div > div {
+        background-color: rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--gproa-border);
+        color: #ffffff;
+    }
+
+    .stSidebar .stButton > button {
+        background: linear-gradient(135deg, var(--gproa-primary), var(--gproa-secondary));
+        color: var(--gproa-dark);
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        width: 100%;
+    }
+
+    .stSidebar .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(0, 224, 255, 0.2);
+    }
+
+    /* Chat messages */
+    .stChatMessage {
+        background: rgba(20, 30, 50, 0.6);
+        border: 1px solid var(--gproa-border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+
+    .stChatMessage.user {
+        border-left: 4px solid var(--gproa-primary);
+    }
+
+    .stChatMessage.assistant {
+        border-left: 4px solid var(--gproa-secondary);
+    }
+
+    /* Input */
+    .stTextInput > div > div > input,
+    .stTextArea > div > div > textarea {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--gproa-border);
+        color: #ffffff;
+        border-radius: 8px;
+    }
+
+    .stTextInput > div > div > input:focus,
+    .stTextArea > div > div > textarea:focus {
+        border-color: var(--gproa-primary);
+        box-shadow: 0 0 0 2px rgba(0, 224, 255, 0.2);
+    }
+
+    /* Buttons */
+    .stButton > button {
+        background: linear-gradient(135deg, var(--gproa-primary), var(--gproa-secondary));
+        color: var(--gproa-dark);
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        padding: 0.75rem 1.5rem;
+    }
+
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(0, 224, 255, 0.2);
+    }
+
+    /* Cards */
+    .feature-card {
+        background: linear-gradient(145deg, rgba(20, 30, 50, 0.9), rgba(10, 20, 35, 0.95));
+        border: 1px solid var(--gproa-border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+        color: var(--gproa-primary);
+        margin-top: 0;
+    }
+
+    /* Divider */
+    hr {
+        border: none;
+        border-top: 1px solid var(--gproa-border);
+        margin: 2rem 0;
+    }
+
+    /* Hide Streamlit branding */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+</style>
+""", unsafe_allow_html=True)
 
 # --- Cargar variables de entorno ---
 load_dotenv()
@@ -41,13 +189,13 @@ if st.sidebar.button("Listar modelos disponibles"):
         st.sidebar.error(f"Error listando modelos: {e}")
 
 # --- Funciones del agente ---
-def preguntar(pregunta: str, contexto: str = "", nombre_modelo: str = "gemini-1.5-pro") -> str:
+def preguntar(pregunta: str, contexto: str = "", nombre_modelo: str = "models/gemini-2.5-flash") -> str:
     prompt = f"{contexto}\n\nPregunta: {pregunta}" if contexto else pregunta
     modelo = genai.GenerativeModel(nombre_modelo)
     respuesta = modelo.generate_content(prompt)
     return respuesta.text
 
-def auditar_archivo(ruta_proyecto: str, nombre_archivo: str, nombre_modelo: str = "gemini-1.5-pro") -> str:
+def auditar_archivo(ruta_proyecto: str, nombre_archivo: str, nombre_modelo: str = "models/gemini-2.5-flash") -> str:
     ruta_completa = os.path.join(ruta_proyecto, nombre_archivo)
     if not os.path.exists(ruta_completa):
         return f"❌ No se encontró el archivo: {ruta_completa}"
@@ -67,7 +215,7 @@ def auditar_archivo(ruta_proyecto: str, nombre_archivo: str, nombre_modelo: str 
     respuesta = modelo.generate_content(prompt)
     return respuesta.text
 
-def auditar_proyecto(ruta_proyecto: str, nombre_modelo: str = "gemini-1.5-pro") -> str:
+def auditar_proyecto(ruta_proyecto: str, nombre_modelo: str = "models/gemini-2.5-flash") -> str:
     prompt = (
         "Eres un ingeniero de software senior. Dame un resumen ejecutivo "
         f"del proyecto en la carpeta: {ruta_proyecto}"
@@ -77,8 +225,12 @@ def auditar_proyecto(ruta_proyecto: str, nombre_modelo: str = "gemini-1.5-pro") 
     return respuesta.text
 
 # --- Interfaz de usuario ---
-st.title("🤖 Agente GProA Gemini")
-st.markdown("Asistente de código basado en **Google Gemini** para analizar proyectos de desarrollo.")
+st.markdown("""
+<div class="header-container">
+    <h1 class="header-title">🤖 GProA Gemini</h1>
+    <p class="header-subtitle">Asistente de IA para análisis de proyectos de desarrollo</p>
+</div>
+""", unsafe_allow_html=True)
 
 # Sidebar con navegación
 st.sidebar.title("📋 Menú")
@@ -149,3 +301,4 @@ elif opcion == "Auditar proyecto (resumen)":
 # --- Pie de página ---
 st.divider()
 st.caption("⚠️ Tu GOOGLE_API_KEY está guardada localmente en .env y no se comparte.")
+st.caption("Desarrollado por GProA Technology • Tecnología de IA para automatización")
