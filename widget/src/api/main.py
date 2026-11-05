@@ -22,7 +22,7 @@ MODELO_PREDETERMINADO = "models/gemini-2.5-flash"
 def chat():
     """
     Endpoint para chatear con Gemini.
-    Body JSON: { "mensaje": "texto", "modelo": "models/gemini-2.5-flash" }
+    Body JSON: { "mensaje": "texto", "modelo": "models/gemini-2.5-flash", "sistema": "instrucción del sistema" }
     """
     try:
         data = request.get_json()
@@ -31,8 +31,9 @@ def chat():
 
         mensaje = data["mensaje"]
         nombre_modelo = data.get("modelo", MODELO_PREDETERMINADO)
+        instruccion_sistema = data.get("sistema", "")
 
-        modelo = genai.GenerativeModel(nombre_modelo)
+        modelo = genai.GenerativeModel(nombre_modelo, system_instruction=instruccion_sistema)
         respuesta = modelo.generate_content(mensaje)
 
         return jsonify({
