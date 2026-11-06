@@ -6,3 +6,4 @@ __pycache__/
 *.pyc
 .DS_Store
 diagnosticar_modelos.py
+respuestas_cache.json

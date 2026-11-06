@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "tipo": "respuestas_precargadas",
+  "descripcion": "Base de conocimientos oficial de GProA Technology. Respuestas pre-cargadas para responder instantáneamente sin gastar tokens de la API de Gemini.",
+  "entradas": {
+    "que es gecrai 1.1 y que normas valida": "GECRAI 1.1 es el motor de GProA Technology para la validación de códigos y normativas técnicas. Valida el cumplimiento de normas ISO, ASTM, ASME y regulaciones locales de ingeniería, asegurando que los diseños y proyectos cumplan con los estándares de calidad y seguridad requeridos antes de pasar a producción.",
+    "como funciona el motor knn de glucai y sus 33 biomarcadores": "GlucAI utiliza un motor K-Nearest Neighbors (KNN) entrenado con 33 biomarcadores metabólicos y clínicos. El algoritmo busca los k vecinos más similares en el espacio de características para predecir estados de salud, detectar patrones anómalos y generar alertas tempranas basadas en la proximidad de los datos del paciente a casos históricos registrados.",
+    "que es giacelia 1.1 y como se integra con cadcae": "GIACELIA 1.1 es el módulo de simulación y diseño asistido por IA de GProA. Se integra con herramientas CAD/CAE mediante exportación de geometrías en formato estándar (STEP, IGES, STL) y lectura de resultados de simulación, permitiendo optimizar diseños mecánicos y estructurales con recomendaciones generadas por IA en tiempo real.",
+    "como funciona saiydd con roblox studio y luau": "SAIyDD es el sistema de asistencia inteligente para desarrollo de juegos de GProA. En Roblox Studio, se integra como un plugin que genera scripts en Luau, sugiere mecánicas de juego, optimiza el rendimiento y ayuda a depurar código directamente dentro del entorno de desarrollo de Roblox.",
+    "quienes somos gproa technology": "GProA Technology es una empresa de ingeniería y desarrollo de software especializada en inteligencia artificial aplicada a proyectos técnicos. Desarrollamos motores de simulación, validadores de normativas y herramientas de asistencia para desarrollo de software y diseño asistido por computadora.",
+    "cuales son los servicios de gproa": "GProA ofrece desarrollo de motores de IA especializados, validación de normativas técnicas (GECRAI), simulación y diseño asistido (GIACELIA), sistemas de asistencia para desarrollo de juegos (SAIyDD), auditoría de código y consultoría en inteligencia artificial aplicada a la ingeniería.",
+    "como contacto a gproa technology": "Puedes contactar a GProA Technology a través de los canales oficiales de la empresa. Visita la página web o envía un correo al soporte técnico para consultas sobre proyectos, integración de APIs o servicios de inteligencia artificial.",
+    "que proyectos tiene gproa": "Los proyectos principales de GProA Technology son: GECRAI 1.1 (validación de normativas), GlucAI (motor KNN con 33 biomarcadores), GIACELIA 1.1 (simulación CAD/CAE) y SAIyDD (asistencia para Roblox Studio y Luau). Cada uno tiene su propio módulo y documentación técnica.",
+    "que es glucai": "GlucAI es el sistema de análisis metabólico de GProA basado en un motor KNN con 33 biomarcadores. Permite predecir estados de salud, detectar patrones anómalos y generar alertas tempranas mediante comparación con casos históricos registrados.",
+    "como se integra gecrai con otros sistemas": "GECRAI 1.1 se integra mediante API REST y exporta reportes en formato PDF y JSON. Puede conectarse con sistemas de gestión de proyectos, plataformas CAD y herramientas de CI/CD para validar automáticamente el cumplimiento normativo en cada entrega.",
+    "cuantos biomarcadores tiene glucai": "GlucAI utiliza 33 biomarcadores metabólicos y clínicos como espacio de características para su motor KNN.",
+    "que formato exporta giacelia": "GIACELIA 1.1 exporta geometrías en formatos estándar como STEP, IGES y STL, y lee resultados de simulación CAD/CAE para generar recomendaciones de optimización de diseño.",
+    "que lenguaje usa saiydd": "SAIyDD genera scripts en Luau, el lenguaje de programación utilizado por Roblox Studio para el desarrollo de juegos.",
+    "que es saiydd": "SAIyDD es el sistema de asistencia inteligente para desarrollo de juegos de GProA. Se integra con Roblox Studio como plugin para generar código Luau, sugerir mecánicas, optimizar rendimiento y depurar scripts."
+  }
+}

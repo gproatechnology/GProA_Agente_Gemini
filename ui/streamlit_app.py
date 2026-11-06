@@ -1,7 +1,11 @@
 import streamlit as st
 import os
+import sys
 from dotenv import load_dotenv
 import google.generativeai as genai
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from cache import obtener_cache
 
 # --- Configuración de la página ---
 st.set_page_config(
@@ -161,6 +165,8 @@ st.markdown("""
 
 # --- Cargar variables de entorno ---
 load_dotenv()
+
+_cache = obtener_cache()
 API_KEY = os.getenv("GOOGLE_API_KEY")
 
 if not API_KEY:
@@ -191,9 +197,14 @@ if st.sidebar.button("Listar modelos disponibles"):
 # --- Funciones del agente ---
 def preguntar(pregunta: str, contexto: str = "", nombre_modelo: str = "models/gemini-2.5-flash") -> str:
     prompt = f"{contexto}\n\nPregunta: {pregunta}" if contexto else pregunta
+    respuesta_cache = _cache.obtener(prompt)
+    if respuesta_cache is not None:
+        return respuesta_cache
     modelo = genai.GenerativeModel(nombre_modelo)
     respuesta = modelo.generate_content(prompt)
-    return respuesta.text
+    texto = respuesta.text
+    _cache.guardar(prompt, texto)
+    return texto
 
 def auditar_archivo(ruta_proyecto: str, nombre_archivo: str, nombre_modelo: str = "models/gemini-2.5-flash") -> str:
     ruta_completa = os.path.join(ruta_proyecto, nombre_archivo)
@@ -211,18 +222,28 @@ def auditar_archivo(ruta_proyecto: str, nombre_archivo: str, nombre_modelo: str 
         "y cómo mejorarlo:\n\n"
         f"{contenido}"
     )
+    respuesta_cache = _cache.obtener(prompt)
+    if respuesta_cache is not None:
+        return respuesta_cache
     modelo = genai.GenerativeModel(nombre_modelo)
     respuesta = modelo.generate_content(prompt)
-    return respuesta.text
+    texto = respuesta.text
+    _cache.guardar(prompt, texto)
+    return texto
 
 def auditar_proyecto(ruta_proyecto: str, nombre_modelo: str = "models/gemini-2.5-flash") -> str:
     prompt = (
         "Eres un ingeniero de software senior. Dame un resumen ejecutivo "
         f"del proyecto en la carpeta: {ruta_proyecto}"
     )
+    respuesta_cache = _cache.obtener(prompt)
+    if respuesta_cache is not None:
+        return respuesta_cache
     modelo = genai.GenerativeModel(nombre_modelo)
     respuesta = modelo.generate_content(prompt)
-    return respuesta.text
+    texto = respuesta.text
+    _cache.guardar(prompt, texto)
+    return texto
 
 # --- Interfaz de usuario ---
 st.markdown("""
@@ -245,6 +266,24 @@ if opcion == "Chat con Gemini":
     
     if "historial_chat" not in st.session_state:
         st.session_state.historial_chat = []
+    
+    # --- Botones rápidos de preguntas pre-cargadas (0 tokens) ---
+    st.subheader("⚡ Preguntas frecuentes (respuesta instantánea)")
+    st.caption("Haz clic en cualquier botón para ver la respuesta oficial sin gastar tokens de la API.")
+    
+    preguntas_seed = list(_cache.entradas_seed.keys())
+    if preguntas_seed:
+        cols = st.columns(2)
+        for idx, pregunta_raw in enumerate(preguntas_seed[:8]):
+            # Mostrar una versión legible de la pregunta (primera letra mayúscula)
+            etiqueta = pregunta_raw[0].upper() + pregunta_raw[1:] if pregunta_raw else pregunta_raw
+            with cols[idx % 2]:
+                if st.button(f"❓ {etiqueta}", key=f"seed_{idx}", use_container_width=True):
+                    respuesta_seed = _cache.obtener(pregunta_raw)
+                    if respuesta_seed:
+                        st.session_state.historial_chat.append({"usuario": pregunta_raw, "agente": respuesta_seed})
+                    st.rerun()
+    st.divider()
     
     pregunta = st.text_area("Escribe tu pregunta:", height=100, placeholder="Ej: ¿Cómo funciona el motor KNN de GlucAI?")
     
