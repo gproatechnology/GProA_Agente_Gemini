@@ -274,8 +274,8 @@ if opcion == "Chat con Gemini":
     preguntas_seed = list(_cache.entradas_seed.keys())
     if preguntas_seed:
         cols = st.columns(2)
-        for idx, pregunta_raw in enumerate(preguntas_seed[:8]):
-            # Mostrar una versión legible de la pregunta (primera letra mayúscula)
+        for idx, pregunta_raw in enumerate(preguntas_seed):
+            # Mostrar una versión legible de la pregunta (primera letra mayúscula, sin normalización)
             etiqueta = pregunta_raw[0].upper() + pregunta_raw[1:] if pregunta_raw else pregunta_raw
             with cols[idx % 2]:
                 if st.button(f"❓ {etiqueta}", key=f"seed_{idx}", use_container_width=True):
